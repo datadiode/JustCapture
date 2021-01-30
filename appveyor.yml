@@ -12,11 +12,12 @@ environment:
 
 before_build:
 - nuget restore
+- ps: $env:GIT_DESCRIBE=git describe --abbrev=5 --tags
 
 build:
   verbosity: minimal
   project: JustCapture.sln
 
 artifacts:
-- path: JustCapture\bin\Debug
-- path: JustCapture\bin\Release
+- path: JustCapture\bin\$(configuration)
+  name: $(APPVEYOR_PROJECT_NAME)_$(GIT_DESCRIBE)-$(configuration)
