@@ -26,7 +26,7 @@ namespace unvell.JustCapture
 			InitCulture();
 
 			labDesc.Text = ProductInfo.Subtitle;
-			labVersion.Text = "Version " + ProductInfo.Version;
+			labVersion.Text = "Version " + ProductVersion;
 
 			linkHP.Click += (s, e) => System.Diagnostics.Process.Start(linkHP.Text);
 		}
