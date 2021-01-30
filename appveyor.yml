@@ -1,6 +1,10 @@
 version: 1.0.{build}
 image: Visual Studio 2015
-configuration: Release
+
+configuration:
+- Debug
+- Release
+
 platform: Any CPU
 
 environment:
@@ -14,4 +18,5 @@ build:
   project: JustCapture.sln
 
 artifacts:
+- path: JustCapture\bin\Debug
 - path: JustCapture\bin\Release
