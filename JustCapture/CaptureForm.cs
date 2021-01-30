@@ -600,40 +600,18 @@ namespace unvell.JustCapture
 			{
 				if (Win32.IsWindowVisible(hwnd))
 				{
-					Rectangle windowBounds = new Rectangle();
+					// get window bounds
+					Rectangle winRect = GetWindowRect(hwnd);
 
-					// get standard window rect
-					Win32.GetWindowRect(hwnd, ref windowBounds);
-
-					// transform to managed Rectangle type
-					windowBounds.Width -= windowBounds.X;
-					windowBounds.Height -= windowBounds.Y;
-
-					// do hit test with centre of window to check whether window is visible by user
-					Point hitTestPoint = new Point(windowBounds.X + windowBounds.Width / 2,
-						windowBounds.Y + windowBounds.Height / 2);
-
-					// get window 
-					IntPtr hitTestWindow = Win32.WindowFromPoint(hitTestPoint);
-
-					// get native window
-					IntPtr rootWindow = Win32.GetAncestor(hitTestWindow, (uint)Win32.GAFlag.GA_ROOT);
-
-					if (rootWindow == hwnd)
+					// if window visible in current active screen
+					// add this window into selection candidate list
+					if (screenRect.Left <= winRect.Left && screenRect.Top <= winRect.Top
+						&& screenRect.Right >= winRect.Right && screenRect.Bottom >= winRect.Bottom)
 					{
-						// get window bounds
-						Rectangle winRect = GetWindowRect(hwnd);
+						// move window rect to put it into screen bounds range
+						winRect.Offset(-screenRect.Left, -screenRect.Top);
 
-						// if window visible in current active screen
-						// add this window into selection candidate list
-						if (screenRect.Left <= winRect.Left && screenRect.Top <= winRect.Top
-							&& screenRect.Right >= winRect.Right && screenRect.Bottom >= winRect.Bottom)
-						{
-							// move window rect to put it into screen bounds range
-							winRect.Offset(-currentScreen.Bounds.Left, -currentScreen.Bounds.Top);
-
-							allWindowBounds.Add(new WindowInfo(winRect, hwnd, true));
-						}
+						allWindowBounds.Add(new WindowInfo(winRect, hwnd, true));
 					}
 				}
 				return true;
