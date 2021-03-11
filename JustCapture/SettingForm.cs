@@ -301,7 +301,10 @@ namespace unvell.JustCapture
 				startOperationCombo.SelectedIndex.ToString());
 
 			// language
-			ConfigurationManager.Instance.SetCurrentUserSetting(UserConfigKey.User_Language, LangResource.Culture.Name);
+			if (LangResource.Culture != null)
+			{
+				ConfigurationManager.Instance.SetCurrentUserSetting(UserConfigKey.User_Language, LangResource.Culture.Name);
+			}
 
 			// update hotkey mapping
 			ShortcutActionManager.Instance.SaveConfig();

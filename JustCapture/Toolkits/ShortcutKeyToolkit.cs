@@ -24,14 +24,14 @@ namespace unvell.JustCapture.Toolkits
 
 		public static string KeysToString(Keys keys)
 		{
-			string text = kc.ConvertToString(keys);
+			string text = kc.ConvertToInvariantString(keys);
 			text = text.Replace("+", " + ");
 			return text;
 		}
 
 		public static Keys StringToKeys(string keys)
 		{
-			return (Keys)kc.ConvertFromString(keys.Replace(" + ", "+"));
+			return (Keys)kc.ConvertFromInvariantString(keys.Replace(" + ", "+"));
 		}
 
 		public static Enum[] ConvertToEnumArray(Keys keys)
