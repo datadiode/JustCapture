@@ -13,7 +13,7 @@ build_script:
 - msbuild /t:Restore,Rebuild /p:RestorePackagesConfig=true /p:VersionSuffix="%version_suffix%" /p:Platform="%PLATFORM%" /p:Configuration="%CONFIGURATION%" JustCapture.sln
 
 after_build:
-- ps: $env:PRODUCT_VERSION=(Get-Command "$env:APPVEYOR_BUILD_FOLDER\JustCapture\bin\$env:CONFIGURATION\JustCapture.exe").FileVersionInfo.ProductVersion
+- ps: $env:PRODUCT_VERSION=(Get-Command "$env:APPVEYOR_BUILD_FOLDER\JustCapture\bin\$env:CONFIGURATION\net40\JustCapture.exe").FileVersionInfo.ProductVersion
 
 artifacts:
 - path: JustCapture\bin\$(configuration)\net40
