@@ -6,7 +6,7 @@
    ! SPDX-License-Identifier: MIT
    !-->
   <Target Name="GitDescribe" BeforeTargets="BeforeBuild">
-    <Exec Command="for /f &quot;tokens=1,* delims=-&quot; %%a in ('&quot;git describe --long --tags --match v*&quot;') do echo %%b > $(ProjectName).version_suffix" />
+    <Exec Command="for /f &quot;tokens=1,* delims=-&quot; %%a in ('&quot;git describe --long --tags --match v*&quot;') do echo -%%b > $(ProjectName).version_suffix" />
     <ReadLinesFromFile File="$(ProjectName).version_suffix">
       <Output TaskParameter="Lines" ItemName="VersionSuffix" />
     </ReadLinesFromFile>

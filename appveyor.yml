@@ -8,8 +8,7 @@ configuration:
 platform: Any CPU
 
 build_script:
-- msbuild /t:Restore /p:RestorePackagesConfig=true /p:VersionSuffix="Restore" JustCapture.sln
-- msbuild /t:Rebuild /p:Platform="%PLATFORM%" /p:Configuration="%CONFIGURATION%" JustCapture.sln
+- msbuild /t:Restore,Rebuild /p:Platform="%PLATFORM%" /p:Configuration="%CONFIGURATION%" JustCapture.sln
 
 after_build:
 - ps: $env:PRODUCT_VERSION=(Get-Command "$env:APPVEYOR_BUILD_FOLDER\JustCapture\bin\$env:CONFIGURATION\net40\JustCapture.exe").FileVersionInfo.ProductVersion
