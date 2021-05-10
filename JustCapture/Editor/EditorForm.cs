@@ -346,6 +346,37 @@ namespace unvell.JustCapture.Editor
 				}
 			};
 			textToolStripButton.CheckOnClick = true;
+
+			AllowDrop = true;
+		}
+
+		private static bool IsFileType(string file, string patterns)
+		{
+			string ext = Path.GetExtension(file);
+			int dot = patterns.IndexOf(ext, StringComparison.InvariantCultureIgnoreCase);
+			return dot != -1 && patterns[(dot + ext.Length) % patterns.Length] == '.';
+		}
+
+		protected override void OnDragEnter(DragEventArgs drgevent)
+		{
+			if (drgevent.Data.GetData("FileDrop") is string[] filenames)
+			{
+				if (IsFileType(filenames[0], ".bmp.png.jpg.jpeg.gif.tif.tiff"))
+				{
+					drgevent.Effect = DragDropEffects.Copy;
+				}
+			}
+		}
+
+		protected override void OnDragDrop(DragEventArgs drgevent)
+		{
+			if (drgevent.Data.GetData("FileDrop") is string[] filenames)
+			{
+				if (CloseImage())
+				{
+					OpenImage(filenames[0]);
+				}
+			}
 		}
 
 		void resizeToolStripButton_Click(object sender, EventArgs e)

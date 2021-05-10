@@ -184,6 +184,31 @@ namespace unvell.JustCapture.Editor
 
 		private int lastSavedPoint = 0;
 
+		private void OpenImage(string filename)
+		{
+			this.operation = Operation.None;
+			this.selectionRange = Rectangle.Empty;
+
+			Image image;
+			try
+			{
+				image = Image.FromFile(filename);
+			}
+			catch (Exception ex)
+			{
+				image = null;
+				MessageBox.Show(LangResource.incorrect_format + "\r\n\r\n" + "Error Details: " + ex.Message);
+			}
+
+			AddHistory(image);
+			this.lastSavedPoint = this.historyIndex;
+
+			this.currentFile = new FileInfo(filename);
+			this.fileName = this.currentFile.Name;
+
+			UpdateFormTitle();
+		}
+
 		public bool CloseImage()
 		{
 			if (lastSavedPoint != this.historyIndex)
@@ -224,27 +249,7 @@ namespace unvell.JustCapture.Editor
 
 					if (ofd.ShowDialog() == DialogResult.OK)
 					{
-						this.operation = Operation.None;
-						this.selectionRange = Rectangle.Empty;
-
-						Image image;
-						try
-						{
-							image = Image.FromFile(ofd.FileName);
-						}
-						catch (Exception ex)
-						{
-							image = null;
-							MessageBox.Show(LangResource.incorrect_format + "\r\n\r\n" + "Error Details: " + ex.Message);
-						}
-
-						AddHistory(image);
-						this.lastSavedPoint = this.historyIndex;
-
-						this.currentFile = new FileInfo(ofd.FileName);
-						this.fileName = this.currentFile.Name;
-
-						UpdateFormTitle();
+						OpenImage(ofd.FileName);
 					}
 				}
 			}
